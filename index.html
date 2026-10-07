@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Points Cookie">
+<meta name="theme-color" content="#f3e9d6">
+<title>Points Cookie</title>
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:wght@700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="logo"><i>🍪</i> Points Cookie</div>
+    <label class="search"><input id="search" type="search" placeholder="Chercher…" aria-label="Rechercher"></label>
+    <button class="fbtn only-mobile" data-act="filters" aria-label="Ouvrir les filtres">Filtres <span class="js-badge" hidden>0</span></button>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side drawer" aria-label="Filtres">
+    <div class="side-head"><b>Filtres</b><button class="x" data-act="closefilters" aria-label="Fermer">✕</button></div>
+    <section>
+      <h3 id="produceTitle">De saison</h3>
+      <div class="sub">Légumes</div><div class="wrap" id="produceVeg"></div>
+      <div class="sub">Fruits</div><div class="wrap" id="produceFruit"></div>
+      <div class="wrap" id="produceExtra" style="margin-top:8px"></div>
+    </section>
+    <section><h3>Saison de la recette</h3><div class="wrap" id="seasons"></div></section>
+    <section><h3>Tags</h3><div class="wrap" id="tags"></div></section>
+    <button class="linkbtn js-reset" data-act="reset" hidden>Tout réinitialiser</button>
+    <button class="btn only-mobile" style="width:100%;margin-top:16px" data-act="closefilters">Voir les recettes</button>
+  </aside>
+
+  <main>
+    <div class="chalk-title">Ce matin <u>à l'affiche</u></div>
+    <p class="sub-title">Triées par envie, saison et ingrédients.</p>
+    <div id="cats"></div>
+    <div class="res-head"><span id="count"></span><button class="linkbtn js-reset" data-act="reset" hidden>Réinitialiser</button></div>
+    <div class="grid" id="grid"></div>
+  </main>
+</div>
+
+<div class="drawer-backdrop"></div>
+<div id="detail"><div class="d-backdrop"></div><div class="d-sheet"></div></div>
+
+<script src="data.js"></script>
+<script src="recettes.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

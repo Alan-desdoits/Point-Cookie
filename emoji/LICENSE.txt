@@ -1,0 +1,4 @@
+Images des fruits et legumes
+- poivron.svg et petit-pois.svg : Twemoji (fork jdecked/twemoji), (c) Twitter, Inc & autres contributeurs.
+  Licence CC-BY 4.0 : https://creativecommons.org/licenses/by/4.0/ - source : https://github.com/jdecked/twemoji
+- haricot-vert.svg : dessin original dans le meme style (aucun emoji "haricot vert" n'existe).

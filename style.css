@@ -1,0 +1,201 @@
+/* Points Cookie — feuille de style.
+   Direction artistique : billet de cinéma sur fond crème (Matinée). Mobile d'abord (iPhone 11 / 14), puis tablette et ordinateur.
+   Règles : texte toujours au contraste WCAG AA (4,5:1 ; 3:1 pour le gros texte) — voir CLAUDE.md. */
+
+/* ---------- Variables ---------- */
+:root {
+  /* Page */
+  --bg: #f3e9d6; --surface: #fbf4e4; --ink: #2b1210; --muted: #5a443a; --line: #cdb892;
+  --accent: #a3141b; --accent-ink: #fff; --accent-h: 357; --scrim: rgba(43, 18, 16, .55); --stat-bg: #f3e9d6;
+  /* Billet (cartes) */
+  --paper: #fffdf7; --paper-ink: #2b1210; --paper-muted: #5a443a; --paper-accent: #a3141b; --paper-rule: #d8c49d;
+  --stub: #f2d28b;   /* talon des plats */
+  --stub2: #f4c1b5;  /* talon des desserts */
+  /* Typo */
+  --font-head: 'Bebas Neue', sans-serif; --font-mono: 'Courier Prime', monospace; --font-body: 'Nunito', system-ui, -apple-system, sans-serif;
+  /* Formes */
+  --radius: 6px; --radius-s: 12px; --sheet-radius: 20px; --chip-radius: 10px;
+  --visual-w: 96px;  /* largeur du talon (54px sur téléphone) */
+  --title-size: 1.9rem; --logo-size: 2rem; --grid-min: 340px;
+  /* Puces : repos = pâle et discret, sélectionnée = rouge plein */
+  --cs: 32%; --cl: 90%; --ct: 22%; --ctl: 24%; --ps: 60%; --pl: 30%;
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); line-height: 1.5;
+  -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent;
+}
+body.no-scroll { overflow: hidden; }
+button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; padding: 0; touch-action: manipulation; }
+input { font: inherit; font-size: 16px; /* évite le zoom automatique d'iOS */ }
+h1, h2, h3, p, ul, ol { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+[hidden] { display: none !important; }
+h2, h3, .card-title, .d-title, .d-h, .logo, .chalk-title { font-family: var(--font-head); font-weight: 400; letter-spacing: .04em; }
+.wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+.emo { width: 1.1em; height: 1.1em; display: inline-block; vertical-align: -.18em; } /* emojis en images (dossier emoji/) */
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* ---------- En-tête ---------- */
+.top {
+  position: sticky; top: 0; z-index: 30; background: var(--bg); border-bottom: 6px solid var(--accent);
+  padding: calc(8px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-left)) 10px;
+}
+.top-in { max-width: 1240px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
+.logo { font-size: var(--logo-size); line-height: 1; color: var(--accent); white-space: nowrap; }
+.logo i { font-style: normal; font-size: .8em; }
+.search { flex: 1; }
+.search input { width: 100%; height: 44px; border-radius: 12px; border: 1px solid #b9a17a; background: #fff; padding: 0 14px; color: var(--ink); outline: none; }
+.search input::placeholder { color: var(--muted); }
+.search input:focus { border-color: var(--accent); }
+.fbtn { height: 44px; padding: 0 14px; border-radius: 12px; background: var(--accent); color: var(--accent-ink); font-weight: 800; display: inline-flex; align-items: center; gap: 6px; }
+.fbtn .js-badge { background: var(--accent-ink); color: var(--accent); border-radius: 999px; min-width: 20px; height: 20px; font-size: .75rem; display: grid; place-items: center; }
+
+/* ---------- Mise en page : colonne de filtres + recettes ---------- */
+.layout { max-width: 1240px; margin: 0 auto; padding: 18px max(16px, env(safe-area-inset-left)) calc(60px + env(safe-area-inset-bottom)); display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
+.chalk-title { font-size: clamp(2.2rem, 9vw, 3.6rem); line-height: .95; margin: 4px 0 6px; }
+.chalk-title u { text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: 6px; }
+.sub-title { color: var(--muted); margin-bottom: 14px; }
+#cats { display: flex; flex-wrap: wrap; gap: 8px; padding: 2px 0 8px; } /* aucune liste ne défile sur le côté */
+.res-head { display: flex; justify-content: space-between; align-items: baseline; color: var(--muted); margin-bottom: 12px; }
+.linkbtn { color: var(--accent); font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+.btn { margin-top: 14px; padding: 10px 18px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.empty { grid-column: 1 / -1; text-align: center; padding: 56px 16px; color: var(--muted); }
+.empty .big { font-size: 3rem; }
+
+/* Filtres : tiroir sur téléphone/tablette, colonne fixe sur ordinateur */
+.side h3 { font-size: 1.7rem; color: var(--accent); margin: 0 0 8px; line-height: 1; }
+.side section { margin-bottom: 22px; }
+.side .sub { font-size: .75rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin: 12px 0 6px; font-weight: 700; }
+.side-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.side-head b { font-family: var(--font-head); font-size: 1.8rem; font-weight: 400; }
+.x { width: 40px; height: 40px; border-radius: 50%; background: var(--bg); }
+.drawer-backdrop { display: none; }
+@media (max-width: 959px) {
+  .drawer {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; max-height: 86vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    background: var(--surface); border-radius: 22px 22px 0 0; padding: 18px 16px calc(24px + env(safe-area-inset-bottom));
+    transform: translateY(105%); transition: transform .3s cubic-bezier(.2, .8, .2, 1); box-shadow: 0 -10px 40px rgba(0, 0, 0, .2);
+  }
+  body.filters-open .drawer { transform: none; }
+  body.filters-open .drawer-backdrop { display: block; position: fixed; inset: 0; z-index: 55; background: var(--scrim); animation: fade .2s; }
+  body.filters-open { overflow: hidden; }
+}
+@media (min-width: 960px) {
+  .only-mobile { display: none !important; }
+  .layout { grid-template-columns: 300px minmax(0, 1fr); gap: 40px; padding-top: 26px; }
+  .side { position: sticky; top: 84px; align-self: start; max-height: calc(100vh - 100px); overflow-y: auto; padding-right: 6px; scrollbar-width: thin; }
+  .side-head { display: none; }
+  .top .search { max-width: 520px; }
+}
+
+/* ---------- Puces (tags, filtres) ---------- */
+.chip {
+  --h: 30;
+  display: inline-flex; align-items: center; gap: .4em; flex: none; min-height: 34px; padding: 0 .9em;
+  border-radius: var(--chip-radius); font-size: .82rem; white-space: nowrap;
+  background: var(--surface); color: hsl(var(--h) var(--ct) var(--ctl)); border: 1px solid #b9a17a;
+  transition: background .15s, color .15s, border-color .15s, transform .1s, box-shadow .15s;
+}
+.chip:active { transform: scale(.96); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; box-shadow: 0 2px 8px -2px rgba(163, 20, 27, .5); }
+.chip.none:not([aria-pressed="true"]) { border-style: dashed; font-style: italic; } /* aucun résultat pour ce filtre */
+#cats .chip, #seasons .chip { --h: var(--accent-h); }
+.drawer .chip { min-height: 36px; }
+.chip .e { font-size: 1.05em; line-height: 1; }
+.chip .e .emo { vertical-align: middle; }
+.chip .n { font-size: .7rem; font-variant-numeric: tabular-nums; }
+.chip:focus-visible, .card:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill { --h: 30; font-size: .72rem; padding: 2px 9px; border-radius: 999px; font-weight: 700; background: hsl(var(--h) 30% 86%); color: hsl(var(--h) 22% 24%); }
+
+/* ---------- Cartes : billet de cinéma horizontal ---------- */
+.grid { counter-reset: n; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--grid-min)), 1fr)); gap: 16px; }
+.card {
+  counter-increment: n; cursor: pointer; text-align: left; display: grid; grid-template-columns: var(--visual-w) minmax(0, 1fr);
+  background: var(--paper); color: var(--paper-ink); border-radius: var(--radius); overflow: hidden;
+  box-shadow: 0 10px 18px -12px rgba(0, 0, 0, .55); transition: transform .18s;
+  /* encoche de perforation entre le talon et le corps du billet */
+  -webkit-mask: radial-gradient(circle 8px at var(--visual-w) 0, #0000 98%, #000) top / 100% 51% no-repeat, radial-gradient(circle 8px at var(--visual-w) 100%, #0000 98%, #000) bottom / 100% 51% no-repeat;
+          mask: radial-gradient(circle 8px at var(--visual-w) 0, #0000 98%, #000) top / 100% 51% no-repeat, radial-gradient(circle 8px at var(--visual-w) 100%, #0000 98%, #000) bottom / 100% 51% no-repeat;
+}
+.card:hover { transform: translateY(-3px); }
+.card:active { transform: scale(.985); }
+.card-visual { display: flex; flex-direction: column; gap: 6px; align-items: center; justify-content: center; background: var(--stub); border-right: 2px dashed var(--paper-rule); }
+.card[data-cat="dessert"] .card-visual { background: var(--stub2); }
+.card-visual::after { content: "N° " counter(n, decimal-leading-zero); font-family: var(--font-mono); font-size: .72rem; letter-spacing: .1em; color: var(--paper-muted); font-weight: 700; }
+.card-visual::before { order: 3; content: ""; width: 48px; height: 15px; background: repeating-linear-gradient(90deg, var(--paper-ink) 0 2px, transparent 2px 4px, var(--paper-ink) 4px 5px, transparent 5px 8px, var(--paper-ink) 8px 11px, transparent 11px 13px); } /* code-barres */
+.card-emoji { font-size: 2.7rem; }
+.card-body { padding: 14px 16px 14px 14px; display: grid; gap: 5px; align-content: start; min-width: 0; }
+.card-cat { font-size: .68rem; text-transform: uppercase; letter-spacing: .16em; color: var(--paper-accent); font-weight: 800; }
+.card-cat i { opacity: .4; font-style: normal; }
+.card-title { font-size: var(--title-size); line-height: 1; text-transform: uppercase; }
+.meta { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .82rem; font-weight: 700; color: var(--paper-muted); }
+.card .pills { border-top: 1px dashed var(--paper-rule); padding-top: 9px; margin-top: 5px; }
+.card .pill { background: hsl(var(--h) 30% 84%); }
+
+/* ---------- Fiche recette ---------- */
+#detail { position: fixed; inset: 0; z-index: 100; display: none; }
+#detail.open { display: block; }
+.d-backdrop { position: absolute; inset: 0; background: var(--scrim); animation: fade .2s; }
+.d-sheet {
+  position: absolute; left: 0; right: 0; bottom: 0; top: max(env(safe-area-inset-top), 12px);
+  background: var(--surface); overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+  border-radius: var(--sheet-radius) var(--sheet-radius) 0 0; padding-bottom: env(safe-area-inset-bottom); animation: up .28s cubic-bezier(.2, .8, .2, 1);
+}
+.d-top { position: sticky; top: 0; z-index: 2; height: 0; }
+.d-close { position: absolute; right: 12px; top: 12px; width: 44px; height: 44px; border-radius: 50%; background: var(--stat-bg); color: var(--ink); font-size: 1.05rem; }
+.d-hero { height: 128px; display: grid; place-items: center; background: var(--stub); }
+.d-emoji { font-size: 4.6rem; }
+.d-content { padding: 18px 20px 40px; }
+.d-cat { font-size: .75rem; text-transform: uppercase; letter-spacing: .16em; color: var(--accent); font-weight: 800; }
+.d-title { font-size: 2.8rem; line-height: .95; text-transform: uppercase; margin: 4px 0 2px; }
+.d-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 16px 0; }
+.stat { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 6px; border-radius: var(--radius-s); background: var(--stat-bg); text-align: center; }
+.stat .k { font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.stat .v { font-weight: 700; font-size: 1.05rem; min-height: 32px; display: flex; align-items: center; }
+.stepper { gap: 4px; }
+.stepper button { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: 1.1rem; line-height: 1; }
+.stepper b { min-width: 24px; text-align: center; }
+.d-h { font-size: 2.1rem; color: var(--accent); margin: 26px 0 10px; line-height: 1; }
+.ing li { display: flex; gap: .35em; flex-wrap: wrap; padding: 9px 0; border-bottom: 1px dashed var(--line); }
+.ing b { font-weight: 700; }
+.ing .is-produce { cursor: pointer; }
+.ing .tagme { opacity: .8; }
+/* Étapes : frise verticale, un emoji par étape */
+.steps { margin-left: 14px; border-left: 1px solid var(--accent); }
+.steps li { position: relative; padding: 0 0 16px 24px; }
+.steps li:last-child { padding-bottom: 0; }
+.step-e { position: absolute; left: -15px; top: -2px; width: 29px; height: 29px; border-radius: 50%; display: grid; place-items: center; background: var(--surface); border: 1px solid var(--accent); font-size: .95rem; line-height: 1; }
+.step-t { display: block; font-size: .95rem; line-height: 1.45; padding-top: 1px; }
+@keyframes fade { from { opacity: 0; } }
+@keyframes up { from { transform: translateY(40px); opacity: 0; } }
+@keyframes pop { from { opacity: 0; transform: translateX(-50%) scale(.97); } }
+
+/* ---------- Téléphone : talon réduit pour gagner de la place ---------- */
+@media (max-width: 639px) {
+  :root { --visual-w: 54px; }
+  .card-visual::after, .card-visual::before { display: none; }
+  .card-visual { gap: 0; } .card-emoji { font-size: 1.8rem; }
+  .card-body { padding: 10px 12px 10px 11px; gap: 4px; }
+  .card-title { font-size: 1.45rem; } .card-cat { font-size: .62rem; letter-spacing: .12em; }
+  .meta { font-size: .76rem; gap: 2px 10px; }
+  .card .pills { padding-top: 7px; margin-top: 3px; } .card .pill { font-size: .68rem; padding: 1px 8px; }
+  .grid { gap: 10px; }
+}
+@media (max-width: 480px) {
+  .top-in { flex-wrap: wrap; row-gap: 8px; }
+  .search { order: 3; flex-basis: 100%; }
+  .fbtn { margin-left: auto; }
+}
+@media (max-width: 420px) { .logo { font-size: calc(var(--logo-size) * .85); } }
+
+/* ---------- Tablette et ordinateur ---------- */
+@media (min-width: 760px) {
+  .d-sheet { left: 50%; right: auto; width: min(760px, calc(100% - 48px)); transform: translateX(-50%); top: 5vh; bottom: 5vh; border-radius: var(--sheet-radius); animation: pop .22s ease-out; padding-bottom: 0; }
+}
+@media (min-width: 960px) { .card-title { font-size: calc(var(--title-size) * 1.1); } }
+@media (min-width: 1500px) { .layout, .top-in { max-width: 1400px; } .grid { --grid-min: 400px; } }
